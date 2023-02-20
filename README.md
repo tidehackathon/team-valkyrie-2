@@ -1,2 +1,2 @@
 # team-valkyrie-2
-Valkyrie-2
+Team Valkyrie-2

@@ -4,15 +4,15 @@ batch_size: 20
 start_from: null
 end_at: null
 features:
-#  twitter-roberta-base-sentiment-latest:
-#    model_path: "cardiffnlp/twitter-roberta-base-sentiment-latest"
-#    supports_cuda: True
-#  twitter-roberta-base-emotion:
-#    model_path: "cardiffnlp/twitter-roberta-base-emotion"
-#    supports_cuda: True
-#  distilroberta-propaganda-2class:
-#    model_path: "valurank/distilroberta-propaganda-2class"
-#    supports_cuda: True
+  twitter-roberta-base-sentiment-latest:
+    model_path: "cardiffnlp/twitter-roberta-base-sentiment-latest"
+    supports_cuda: True
+  twitter-roberta-base-emotion:
+    model_path: "cardiffnlp/twitter-roberta-base-emotion"
+    supports_cuda: True
+  distilroberta-propaganda-2class:
+    model_path: "valurank/distilroberta-propaganda-2class"
+    supports_cuda: True
   bert-finetuned-propaganda-18:
     model_path: "MM2157/bert-finetuned-propaganda-18"
     supports_cuda: False

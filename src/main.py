@@ -10,7 +10,7 @@ from config import INSERT_BATCH_SIZE
 from sql import INSERT_FEATURES_QUERY, INSERT_SOURCES_QUERY, INSERT_POSTS_QUERY
 
 sys.path.append(".")
-from common.src.db_core import webcams_db
+from common.src.db_core import hackathon_db
 
 
 def preprocess_dataset(dataframe):
@@ -32,7 +32,7 @@ def preprocess_dataset(dataframe):
 
 def fill_sources():
     try:
-        conn = webcams_db()
+        conn = hackathon_db()
     except Exception as e:
         print(e)
     for i in range(15):
@@ -63,7 +63,7 @@ def fill_sources():
 def fill_posts():
 
     try:
-        conn = webcams_db()
+        conn = hackathon_db()
     except Exception as e:
         print(e)
     for i in range(15):
@@ -102,7 +102,7 @@ def fill_posts():
 def process():
 
     try:
-        conn = webcams_db()
+        conn = hackathon_db()
     except Exception as e:
         print(e)
     indexer = 0

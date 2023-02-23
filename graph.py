@@ -1,3 +1,10 @@
+""" Script to read input data about posts, detect possible relationships, insert them into Neo4J,
+calculate centralities for all users (separate values for direct references, hashtags,
+credible URLs, and uncredible URLs), and export them back.
+
+To save on network traffic, everything is done with local JSON and CSV files.
+As the next step, the output files are uploaded into PostgreSQL.
+"""
 import csv
 import json
 import re
@@ -6,15 +13,15 @@ from urllib.request import urlopen
 from neo4j import GraphDatabase
 
 URL = 'bolt://localhost:7687'
-USER = 'admin'
-PASSWORD = 'EvilFrog666'
+USER = 'neo4j'
+PASSWORD = '*****'
 
-INPUT_PATH = 'posts_info.jsonl'
+INPUT_PATH = 'posts.jsonl'
 INPUT_PREPARED_PATH = 'posts_prepared.json'
 OUTPUT_PATH = 'graph_{}.csv'
 
 INSERT_LIMIT = 1000
-PROCESS_LIMIT = 5000
+PROCESS_LIMIT = 100000
 READ_LIMIT = 5000
 
 LABELED_DOMAINS = {
@@ -29,8 +36,7 @@ LABELED_DOMAINS = {
     'sputniknews.com': -1,
     'tass.com': -1
 }
-#REMOVE_DOMAINS = {'twitter.com'}
-REMOVE_DOMAINS = {'twitter.com', 'bit.ly', 'dlvr.it', 'trib.al', 'ift.tt', 'is.gd'}
+REMOVE_DOMAINS = {'twitter.com'}
 DOMAIN_ALIASES = {
     'mol.im': 'dailymail.co.uk',
     'abcn.ws': 'abcnews.go.com',
@@ -39,8 +45,7 @@ DOMAIN_ALIASES = {
     'nyti.ms': 'nytimes.com',
     'a.msn.com': 'msn.com'
 }
-#URL_SHORTENERS = {'bit.ly', 'dlvr.it', 'trib.al', 'ift.tt', 'is.gd'}
-URL_SHORTENERS = {}
+URL_SHORTENERS = {'bit.ly', 'dlvr.it', 'trib.al', 'ift.tt', 'is.gd'}
 REMOVE_TAGS = {'Ukraine', 'Russia', 'StandWithUkraine'}
 
 def insert_data(obj, data):
@@ -143,10 +148,10 @@ def read_data(obj, offset, limit):
     """.format(offset, limit))
     res = [dict(row) for row in res]
     res = [{'id': row['s.id'],
-            'hash_c': round(row['s.hashtagsCentrality'], 6),
-            'ref_c': round(row['s.referencesCentrality'], 6),
-            'p_dom_c': round(row['s.posDomainsCentrality'], 6),
-            'n_dom_c': round(row['s.negDomainsCentrality'], 6)} for row in res]
+            'hash_c': round(row['s.hashtagsCentrality'] or 0, 6),
+            'ref_c': round(row['s.referencesCentrality'] or 0, 6),
+            'p_dom_c': round(row['s.posDomainsCentrality'] or 0, 6),
+            'n_dom_c': round(row['s.negDomainsCentrality'] or 0, 6)} for row in res]
     return res
 
 def delete_data(obj):
@@ -174,7 +179,7 @@ def process(row):
         urls.append(url)
 
     domains = [
-        re.sub(r'^www.', '', url.split('://')[-1].split('/')[0].split(':')[0])
+        re.sub(r'^www.', '', url.split('://')[-1].split('/')[0].split(':')[0]).lower()
         for url in urls]
     domains = [DOMAIN_ALIASES.get(d, d) for d in domains]
     res['domains'] = [
@@ -218,13 +223,6 @@ def prepare():
 def run(data, num):
     timestamp = time.time()
 
-    ###
-    for row in data:
-        row['references'] = [r for r in set(row['references']) if r != row['source_id']]
-
-    data = [row for row in data if row['domains'] or row['hashtags'] or row['references']]
-    ###
-
     driver = GraphDatabase.driver(URL, auth=(USER, PASSWORD))
     with driver.session() as session:
         session.execute_write(delete_data)
@@ -267,8 +265,6 @@ def main():
     timestamp = time.time()
     with open(INPUT_PREPARED_PATH, encoding='utf8') as obj:
         data = json.load(obj)
-        ###
-        data = data[:15000]
 
     num = 0
     while True:
@@ -287,5 +283,5 @@ def main():
     print('Finished in {} s'.format(time.time() - timestamp))
 
 if __name__ == '__main__':
-    # prepare()
+    # prepare() # run only once to pre-process input data
     main()

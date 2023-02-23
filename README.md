@@ -3,11 +3,11 @@
 
 # Description
 
-The disinformation detector is a machine learning-based system that is designed to identify dis/misinformation in social media data. It is built using a combination of Transformer-based models from Hugging Face, Neo4j, and PostgreSQL.
+The disinformation detector is a machine learning-based system that is designed to identify dis/misinformation in social media data. It is built using a combination of Transformer-based models from Hugging Face, and databases Neo4j, PostgreSQL for storing and analysing insights.
 
 In addition the disinformation detector also includes feature generation techniques to obtain metadata about the social media data. For example, sentiment and emotional analysis, NER.
 
-Centralities in the Neo4j graph can also be calculated to identify influential users and posts in the network, identify the most central users or posts in the network, bridges between different communities in the network.
+Centralities in the Neo4j graph can also be calculated to identify influential users and posts in the network, identify the most central users or posts in the network, bridges between different dis/mis/fake communities in the network.
 
 By combining these feature generation techniques with machine learning algorithms and graph database technologies, the disinformation detector is able to detect patterns of disinformation in social media data and generate alerts and reports for further investigation. The system is designed to be highly scalable, flexible, and interoperable, making it suitable for use in a wide range of applications and settings.
 
@@ -42,6 +42,19 @@ By combining these feature generation techniques with machine learning algorithm
 - Neo4j (Graph Database): Neo4j is a graph database that can be used to model and analyze complex networks, such as those involved in the spread of disinformation. By using Neo4j to visualize and analyze the relationships between different entities, such as people, organizations, and topics, analysts and researchers can gain valuable insights into the sources and spread of disinformation.
 - Metabase (Business Intelligence and Data Visualization Tool): Metabase is a business intelligence and data visualization tool that can be used to create custom dashboards and reports for analyzing data related to disinformation. By using Metabase, analysts and researchers can more easily visualize and share data insights, making it easier to detect and analyze potential cases of disinformation.
 
+## General details
+1. We use only the data provided
+   1. News data for defining examples of non dis/missinformation
+   2. twitter data for select dataset for train/test model
+   3. we skip russian_invasion_of_ukraine.csv data, becouse for comments we have very short texts and issue with score's distribution
+2. We use ONLY an open source / non-propriety – application / code / tools.
+3. Our microservice architecture define real-time, and secure usage.
+4. We include SoTA Transformer based models and API for train/tune from Hugging Face, different data representations (metadata in PostgreSQL, relations in Neo4j)
+5. Our solution can be improved with adding new API for recognize features, or interpreter results with BI reports or applying Causal AI inference
+![Interpretation details](images/causal_ai.png)
+6. Each component we defile as microservice, which give ability to add new functionality.
+7. We create a PoC solution from scratch
+8. We need to add deployment for move to Minimum Viable Product (MVP), also we add ability to include information exchange with other systems
 
 # Day 1
 
@@ -413,3 +426,6 @@ More details in [graph.py](https://github.com/tidehackathon/team-valkyrie-2/blob
 ## Visualization in Metabase
 
 
+# Next steps
+1. Add dockerfiles for each component
+2. Add dockercompose to up 

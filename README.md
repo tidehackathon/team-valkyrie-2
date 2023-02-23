@@ -17,6 +17,7 @@ By combining diverse feature generation techniques with machine learning algorit
 4. origin/feature/linguistic_feature - apply Spacy for getting linguistic features
 5. origin/feature/neo4j - build and analyse graph in Neo4j
 6. origin/feature_generator - apply pre-trained models from Hugging Face, call API for fact-checking 
+7. origin/model_building - run final model in Jupyter Notebooks
 
 ## High-level architecture steps
 

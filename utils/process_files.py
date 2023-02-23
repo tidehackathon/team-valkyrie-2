@@ -1,3 +1,8 @@
+"""
+Process file for extracting linguistic feature using multiprocessing
+"""
+
+
 import json
 import multiprocessing as mp
 import time
@@ -8,13 +13,23 @@ import pandas as pd
 from src.utils.linguistic_features import extract_linguistic_features
 
 
-def worker(texts, output_queue):
+def worker(texts: str, output_queue: mp.Queue) -> None:
+    """
+    Worker for process
+    :param texts: Text to extract features: str
+    :param output_queue: queue for processes
+    :return: None
+    """
     for _, t in texts.iterrows():
         result = extract_linguistic_features(t)
         output_queue.put_nowait(result)
 
 
-def main():
+def process_data() -> None:
+    """
+    Read and process data in multiprocess way.
+    :return: 0
+    """
     start_time = time.time()
     queue = mp.Queue()
 
@@ -25,7 +40,7 @@ def main():
     processing_df = df[['pid', 'content']]
     print(processing_df.shape[0])
 
-    n = 7
+    n = 7  # Number of processes
 
     list_len = ceil(processing_df.shape[0] / n)
 

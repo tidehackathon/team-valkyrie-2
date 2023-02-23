@@ -4,7 +4,7 @@ Important: The code itself is in the different Git branches of this repo: see de
 
 # Description
 
-DisInformation Detector is a machine learning-based system designed to identify dis/misinformation in social media. It uses a SoTA models built using various feature generation techniques (such as sentiment and emotional analysis, named entity recognition, claim checking, etc.), pre-built Transformer-based models from Hugging Face and graph analytics in Neo4j.  It has a visual dashboard based on Metabase (open-source BI data visualization tool).
+DisInformation Detector is a machine learning-based system designed to identify dis/misinformation in social media. It uses a state of the art model built using various feature generation techniques (such as sentiment and emotional analysis, named entity recognition, claim checking, etc.), pre-built Transformer-based models from Hugging Face and graph analytics in Neo4j.  It has a visual dashboard based on Metabase (open-source BI data visualization tool).
 
 Leveraging graph algorithms such as centralities allows to unveil hidden dependencies based on external links and hashtags, identify influential users and posts, and build bridges between different disinformation "communities" in the network.
 
@@ -17,7 +17,6 @@ By combining diverse feature generation techniques with machine learning algorit
 4. origin/feature/linguistic_feature - apply Spacy for getting linguistic features
 5. origin/feature/neo4j - build and analyse graph in Neo4j
 6. origin/feature_generator - apply pre-trained models from Hugging Face, call API for fact-checking 
-7. origin/model_building - run final model in Jupyter Notebooks
 
 ## High-level architecture steps
 
@@ -54,18 +53,18 @@ By combining diverse feature generation techniques with machine learning algorit
 - Metabase (Business Intelligence and Data Visualization Tool): Metabase is a business intelligence and data visualization tool that can be used to create custom dashboards and reports for analyzing data related to disinformation. By using Metabase, analysts and researchers can more easily visualize and share data insights, making it easier to detect and analyze potential cases of disinformation.
 
 ## General details
-1. We use only the data provided
-   1. News data for defining examples of non dis/missinformation
-   2. twitter data for select dataset for train/test model
-   3. we skip russian_invasion_of_ukraine.csv data, becouse for comments we have very short texts and issue with score's distribution
-2. We use ONLY an open source / non-propriety – application / code / tools.
-3. Our microservice architecture define real-time, and secure usage.
-4. We include SoTA Transformer based models and API for train/tune from Hugging Face, different data representations (metadata in PostgreSQL, relations in Neo4j)
-5. Our solution can be improved with adding new API for recognize features, or interpreter results with BI reports or applying Causal AI inference
+1. We used only the data provided by the hosts:
+   1. Twitter data for selected datasets for training/testing the model
+   2. News data for defining examples of NON dis/mis-information (for validation purposes)
+   3. We skipped `russian_invasion_of_ukraine.csv` data, because collected comments are too short and have issues with score distribution
+   4. We considered adding some fresh Twitter posts, but didn't have enough time to implement this
+2. We used ONLY open-source/non-proprietary modules and tools.
+3. Our microservice architecture assures secure real-time usage.
+4. We use our own SoTA (state of the art) model, combining it with existing pre-trained models from Hugging Face and a free API from ClaimBuster.  Building and analyzing a graph in Neo4j graph database was implemented from scratch.
+5. Our solution can be improved/extended by adding new APIs for media recognition features, interpreting results with BI reports, and applying Causal AI inference.
 ![Interpretation details](images/causal_ai.png)
-6. Each component we defile as microservice, which give ability to add new functionality.
-7. We create a PoC solution from scratch
-8. We need to add deployment for move to Minimum Viable Product (MVP), also we add ability to include information exchange with other systems
+6. Each component is defiled as a microservice, that provides ability to effectively scale or replace them, as well as add new components.
+8. To move to Minimum Viable Product (MVP) we need to add a deployment part and to setup API(s) for information exchange with other systems (following FMN standards, if required).
 
 ## Visualization part
 1. Building BI dashbord with Metabase

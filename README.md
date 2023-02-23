@@ -444,4 +444,6 @@ TBD
    4. stage environment for running inference pipeline and measuring model quality or detecting model drift
    5. production environment for inference pipeline and API for external usage
 3. Add CI/CD for each component
+
+Please find the following example of architecture using AWS cloud with Sagemaker for building Model LifeCycle.
 ![Example Model lifecycle architecture](images/model_cycle.png)

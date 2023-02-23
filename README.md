@@ -39,8 +39,11 @@ By combining diverse feature generation techniques with machine learning algorit
 
 ![General overview](images/general.png)
 
-## UML Architecture with detector components
+## UML Components Architecture with detector components
 ![UML](images/uml.png)
+
+## Deployment diagram
+![Deployment diagram](images/components.png)
 
 ## Used technologies
 

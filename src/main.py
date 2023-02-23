@@ -13,7 +13,12 @@ sys.path.append(".")
 from common.src.db_core import hackathon_db
 
 
-def preprocess_dataset(dataframe):
+def preprocess_dataset(dataframe: pd.DataFrame) -> pd.DataFrame:
+    """
+    Preprocess dataset
+    :param dataframe: pandas dataframe with twitter data
+    :return: preprocessed dataframe: pd.DataFrame
+    """
     dataframe = dataframe.where(pd.notnull(dataframe), None)
     dataframe['username'] = dataframe['user'].apply(lambda x: x.get('username'))
     dataframe['mentioned_users'] = dataframe['mentionedUsers'].apply(
@@ -30,7 +35,12 @@ def preprocess_dataset(dataframe):
     return dataframe
 
 
-def fill_sources():
+def process_sources_table() -> None:
+    """
+    Process data and insert it to table "sources"
+    :return: None
+    """
+
     try:
         conn = hackathon_db()
     except Exception as e:
@@ -60,7 +70,11 @@ def fill_sources():
             conn.execute_query(INSERT_SOURCES_QUERY, params=batch)
 
 
-def fill_posts():
+def process_posts_table() -> None:
+    """
+    Process data and insert it to table "posts"
+    :return: None
+    """
 
     try:
         conn = hackathon_db()
@@ -99,8 +113,11 @@ def fill_posts():
             conn.execute_query(INSERT_POSTS_QUERY, params=batch)
 
 
-def process():
-
+def process_features() -> None:
+    """
+    Process the linguistic features and insert them to database
+    :return: None
+    """
     try:
         conn = hackathon_db()
     except Exception as e:
@@ -132,4 +149,4 @@ def process():
 
 
 if __name__ == '__main__':
-    process()
+    process_features()

@@ -64,6 +64,13 @@ By combining these feature generation techniques with machine learning algorithm
 7. We create a PoC solution from scratch
 8. We need to add deployment for move to Minimum Viable Product (MVP), also we add ability to include information exchange with other systems
 
+
+## Visualization part
+1. Building BI dashbord with Metabase
+2. Show subgraph for detecting network of sources
+3. Get importance of features for finel model
+
+
 # Day 1
 
 ## Data collection

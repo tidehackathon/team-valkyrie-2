@@ -1,11 +1,12 @@
 # DisInformation Detector by Valkyrie-2
 
+Important: The code itself is in the different Git branches of this repo: see description below.
 
 # Description
 
-The disinformation detector is a machine learning-based system that is designed to identify dis/misinformation in social media data. It is built using a combination of Transformer-based models from Hugging Face, and databases Neo4j, PostgreSQL for storing and analysing insights.
+DisInformation Detector is a machine learning-based system designed to identify dis/misinformation in social media. It uses oa state of the art model built using various feature generation techniques (such as sentiment and emotional analysis, named entity recognition, claim checking, etc.), pre-built Transformer-based models from Hugging Face and graph analytics in Neo4j.  It has a visual dashboard based on Metabase (open-source BI data visualization tool).
 
-In addition the disinformation detector also includes feature generation techniques to obtain metadata about the social media data. For example, sentiment and emotional analysis, NER.
+Leveraging graph
 
 Centralities in the Neo4j graph can also be calculated to identify influential users and posts in the network, identify the most central users or posts in the network, bridges between different dis/mis/fake communities in the network.
 

@@ -426,15 +426,22 @@ def analyze_domain_data(obj):
 More details in [graph.py](https://github.com/tidehackathon/team-valkyrie-2/blob/feature/neo4j/graph.py).
 
 ## Prepare dataset for model development
-
+TBD
 
 # Day 4
 
 ## Finalize microservice Architecture
-
+TBD
 ## Visualization in Metabase
-
+TBD
 
 # Next steps
-1. Add dockerfiles for each component
-2. Add dockercompose to up 
+1. Add Dockerfiles for each component
+2. Build model training/validation/inference pipelines. As an example on AWS, we recommend including
+   1. experimentation area
+   2. development environment to run data pipeline for feature generation and model train pipeline
+   3. tooling environment for feature store, model registry, and repositories
+   4. stage environment for running inference pipeline and measuring model quality or detecting model drift
+   5. production environment for inference pipeline and API for external usage
+3. Add CI/CD for each component
+![Example Model lifecycle architecture](images/model_cycle.png)

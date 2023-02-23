@@ -11,15 +11,23 @@ Centralities in the Neo4j graph can also be calculated to identify influential u
 
 By combining these feature generation techniques with machine learning algorithms and graph database technologies, the disinformation detector is able to detect patterns of disinformation in social media data and generate alerts and reports for further investigation. The system is designed to be highly scalable, flexible, and interoperable, making it suitable for use in a wide range of applications and settings.
 
+## Branch structure
+1. origin/main - description with all details and presentations
+2. origin/data_preparation - data QC, selection subset for analysis and topic modelling
+3. origin/feature/data_ingestion_functions - API for load and read data from PostgreSQL
+4. origin/feature/linguistic_feature - apply Spacy for getting linguistic features
+5. origin/feature/neo4j - build and analyse graph in Neo4j
+6. origin/feature_generator - apply pre-trained models from Hugging Face, call API for fact-checking 
+
 ## High-level architecture steps
 
-- Data Collection: The first step is to collect data from social media platforms such as Twitter, Facebook, or Instagram. This can be done using APIs provided by the platforms themselves, or third-party tools that specialize in social media data collection.
+- Data Collection: The first step is to collect data from social media platforms such as Twitter. This can be done using APIs provided by the platforms themselves, or third-party tools that specialize in social media data collection.
 
 - Preprocessing: The collected data may contain noise or irrelevant information that needs to be removed. The data must be cleaned and filtered to obtain only the necessary text, images, and video content that is relevant to the analysis.
 
 - Natural Language Processing (NLP): NLP is a crucial step in the disinformation detection process. The text content must be processed using NLP techniques such as tokenization, part-of-speech tagging, sentiment analysis, and topic modeling. NLP can help identify the key topics being discussed, the sentiment and tone of the posts, and the language used.
 
-- Image and Video Analysis: Images and videos shared on social media can also contain disinformation, so it's important to analyze them as well. This can be done using computer vision techniques such as object detection, face recognition, and image classification.
+- Image and Video Analysis (**only idea**): Images and videos shared on social media can also contain disinformation, so it's important to analyze them as well. This can be done using computer vision techniques such as object detection, face recognition, and image classification.
 
 - Feature Extraction: Once the data has been preprocessed, NLP and image analysis techniques can be used to extract features that can be used for disinformation detection. For example, features such as the sentiment of a post, the use of emotional language, or the presence of specific objects in an image can all be used as indicators of disinformation.
 
@@ -416,6 +424,7 @@ def analyze_domain_data(obj):
 ```
 ![Neo4j Graph Centralities](images/centralities.png)
 More details in [graph.py](https://github.com/tidehackathon/team-valkyrie-2/blob/feature/neo4j/graph.py).
+
 ## Prepare dataset for model development
 
 

@@ -435,12 +435,57 @@ def analyze_domain_data(obj):
 More details in [graph.py](https://github.com/tidehackathon/team-valkyrie-2/blob/feature/neo4j/graph.py).
 
 ## Prepare dataset for model development
-TBD
+After filtering we prepared the following dataset for modelling stage:
+```
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 110931 entries, 0 to 110930
+Data columns (total 18 columns):
+ #   Column                                 Non-Null Count   Dtype  
+---  ------                                 --------------   -----  
+ 0   feature__emotion_joy                   110931 non-null  float64
+ 1   feature__emotion_optimism              110931 non-null  float64
+ 2   feature__emotion_anger                 110931 non-null  float64
+ 3   feature__emotion_sadness               110931 non-null  float64
+ 4   feature__sentiment_negative            110931 non-null  float64
+ 5   feature__sentiment_neutral             110931 non-null  float64
+ 6   feature__sentiment_positive            110931 non-null  float64
+ 7   feature__source_name                   110931 non-null  object 
+ 8   feature__reply_count                   110931 non-null  int64  
+ 9   feature__share_count                   110931 non-null  int64  
+ 10  feature__like_count                    110931 non-null  int64  
+ 11  feature__quote_count                   110931 non-null  int64  
+ 12  feature__claimbuster_score             110931 non-null  float64
+ 13  feature__hashtag_centrality            45715 non-null   float64
+ 14  feature__reference_centrality          45715 non-null   float64
+ 15  feature__credible_domain_centrality    45715 non-null   float64
+ 16  feature__uncredible_domain_centrality  45715 non-null   float64
+ 17  verdict                                110931 non-null  int64  
+dtypes: float64(12), int64(5), object(1)
+memory usage: 15.2+ MB
+```
 
 # Day 4
 
-## Finalize microservice Architecture
-TBD
+## Model development
+```
+hyper_params = {
+    'task': 'train',
+    'boosting_type': 'gbdt',
+    'objective': 'binary',
+    'metric': ['binary', 'auc'],
+    'learning_rate': 0.005,
+    "num_leaves": 128,  
+    "max_bin": 512,
+}
+
+model = lgbm.train(hyper_params, lgb_train, num_boost_round=100, early_stopping_rounds=20,
+                   verbose_eval=True, valid_sets=lgb_eval)
+```
+![model metrics](images/confution.png)
+![mfeature importance](images/importance.png)
+## Examples of model prediction
+![model prediction](images/preds.png)
+![model prediction](images/preds2.png)
 ## Visualization in Metabase
 TBD
 

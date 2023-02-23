@@ -5,12 +5,12 @@ from math import ceil
 
 import pandas as pd
 
-from src.utils.linguistic_features import text_to_json
+from src.utils.linguistic_features import extract_linguistic_features
 
 
 def worker(texts, output_queue):
     for _, t in texts.iterrows():
-        result = text_to_json(t)
+        result = extract_linguistic_features(t)
         output_queue.put_nowait(result)
 
 

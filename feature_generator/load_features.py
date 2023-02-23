@@ -1,3 +1,6 @@
+"""
+Script for loading feature data into PostgreSQL database
+"""
 import json
 
 import pandas

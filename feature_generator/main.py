@@ -1,3 +1,7 @@
+"""
+Module contains a generic logic to execute Huggingface models
+needed to generate new features for input records
+"""
 import json
 import os
 import torch
@@ -83,7 +87,7 @@ if __name__ == "__main__":
     counter = 0
     for index, row in df.iterrows():
         result = row.to_dict()
-        result_batch.append({'id': row['id'], 'content': row['content']})
+        result_batch.append({'id': row['id'], 'content': row['content_rendered']})
         if len(result_batch) == batch_size or (counter == (df.shape[0] - 1) and len(result_batch) > 0):
             for task_name, model_data in models.items():
                 run_inference(result_batch, task_name, *model_data)

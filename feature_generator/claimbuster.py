@@ -1,3 +1,7 @@
+"""
+Script for retrieving information from Claimbuster API
+in order to have data about presence of claim in the provided text
+"""
 import concurrent.futures
 import json
 import logging

@@ -1,5 +1,5 @@
 source_data_file: ../Data/data_clean.pkl
-dest_file: analysis_2prop.jsonl
+dest_file: analysis_final.jsonl
 batch_size: 20
 start_from: null
 end_at: null

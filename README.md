@@ -39,6 +39,9 @@ By combining these feature generation techniques with machine learning algorithm
 
 ![General overview](images/general.png)
 
+## UML Architecture with detector components
+![UML](images/uml.png)
+
 ## Used technologies
 
 - Python: Python is a high-level programming language that can be used to develop custom scripts and applications for various disinformation detection tasks. For example, Python can be used to automate data processing tasks, build machine learning models, and develop custom data visualization tools.
@@ -63,7 +66,6 @@ By combining these feature generation techniques with machine learning algorithm
 6. Each component we defile as microservice, which give ability to add new functionality.
 7. We create a PoC solution from scratch
 8. We need to add deployment for move to Minimum Viable Product (MVP), also we add ability to include information exchange with other systems
-
 
 ## Visualization part
 1. Building BI dashbord with Metabase

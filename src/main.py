@@ -1,16 +1,14 @@
+import math
 import json
 import math
-import sys
+
 import numpy as np
 import pandas as pd
-from dataclasses import astuple
-import json
-from models import FeaturesInfo, PostsInfo, SourcesInfo
-from config import INSERT_BATCH_SIZE
-from sql import INSERT_FEATURES_QUERY, INSERT_SOURCES_QUERY, INSERT_POSTS_QUERY
 
-sys.path.append(".")
-from common.src.db_core import hackathon_db
+from config import INSERT_BATCH_SIZE
+from models import FeaturesInfo, PostsInfo, SourcesInfo
+from sql import INSERT_FEATURES_QUERY, INSERT_SOURCES_QUERY, INSERT_POSTS_QUERY
+from utils.postgres_utils import PostrgresService
 
 
 def preprocess_dataset(dataframe: pd.DataFrame) -> pd.DataFrame:
@@ -42,7 +40,7 @@ def process_sources_table() -> None:
     """
 
     try:
-        conn = hackathon_db()
+        conn = PostrgresService(credentials_file_path='src/secrets.json')
     except Exception as e:
         print(e)
     for i in range(15):
@@ -67,7 +65,9 @@ def process_sources_table() -> None:
 
         for i in range(0, len(ingestion_dataset), INSERT_BATCH_SIZE):
             batch = ingestion_dataset[i:i + INSERT_BATCH_SIZE]
-            conn.execute_query(INSERT_SOURCES_QUERY, params=batch)
+            conn.execute_query(INSERT_SOURCES_QUERY, batch)
+
+        conn.close()
 
 
 def process_posts_table() -> None:
@@ -77,7 +77,7 @@ def process_posts_table() -> None:
     """
 
     try:
-        conn = hackathon_db()
+        conn = PostrgresService(credentials_file_path='src/secrets.json')
     except Exception as e:
         print(e)
     for i in range(15):
@@ -87,7 +87,8 @@ def process_posts_table() -> None:
         df = preprocess_dataset(df)
         df = df[['url', 'date', 'username', 'user', 'content', 'renderedContent', 'lang', 'outlinks', 'media',
                  'replyCount', 'retweetCount', 'likeCount', 'quoteCount', 'retweeted_tweet', 'retweetedTweet',
-                 'quoted_tweet', 'quotedTweet', 'inReplyToTweetId', 'inReplyToUser', 'mentioned_users', 'mentionedUsers',
+                 'quoted_tweet', 'quotedTweet', 'inReplyToTweetId', 'inReplyToUser', 'mentioned_users',
+                 'mentionedUsers',
                  'hashtags', 'coordinates', 'place', 'id']]
 
         df = df.rename(columns={'date': 'original_timestamp', 'username': 'source_name', 'user': 'source_details',
@@ -110,7 +111,9 @@ def process_posts_table() -> None:
         for i in range(0, len(ingestion_dataset), INSERT_BATCH_SIZE):
             batch = ingestion_dataset[i:i + INSERT_BATCH_SIZE]
             #
-            conn.execute_query(INSERT_POSTS_QUERY, params=batch)
+            conn.execute_query(INSERT_POSTS_QUERY, batch)
+
+        conn.close()
 
 
 def process_features() -> None:
@@ -119,7 +122,7 @@ def process_features() -> None:
     :return: None
     """
     try:
-        conn = hackathon_db()
+        conn = PostrgresService(credentials_file_path='src/secrets.json')
     except Exception as e:
         print(e)
     indexer = 0
@@ -141,11 +144,13 @@ def process_features() -> None:
 
         for i in range(0, len(ingestion_dataset), INSERT_BATCH_SIZE):
             batch = ingestion_dataset[i:i + INSERT_BATCH_SIZE]
-            conn.execute_query(INSERT_FEATURES_QUERY, params=batch)
+            conn.execute_query(INSERT_FEATURES_QUERY, batch)
 
         print(f'Chunk {indexer} has been ingested to database')
 
         indexer += 1
+
+    conn.close()
 
 
 if __name__ == '__main__':
